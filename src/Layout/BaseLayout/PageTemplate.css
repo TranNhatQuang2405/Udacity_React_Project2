@@ -1,0 +1,9 @@
+.PageTemplate__box {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    overflow-y: auto;
+    padding: 0;
+}

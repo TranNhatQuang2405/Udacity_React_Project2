@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import loginImage from "Assets/LoginImage.png"
 import { Alert, Button, Form, Spinner } from 'react-bootstrap'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { login } from 'Redux/action/userAction'
 import { _getUsers } from '_DATA'
 import { useNavigate } from 'react-router-dom'
@@ -9,6 +9,7 @@ import "./LoginPage.css"
 
 function LoginPage() {
 
+    const isLogin = useSelector(state => state.user.isLogin)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [loginInfo, setLoginInfo] = useState({ username: "", password: "" })
@@ -22,6 +23,12 @@ function LoginPage() {
             [event.target.id]: event.target.value
         }))
     }
+
+    useEffect(() => {
+        if (isLogin)
+            navigate("/")
+    }, [isLogin])
+
 
     const handleLogin = async (event) => {
         event.preventDefault()
