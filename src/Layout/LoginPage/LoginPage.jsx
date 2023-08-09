@@ -1,11 +1,20 @@
 import React, { useState } from 'react'
 import loginImage from "Assets/LoginImage.png"
-import { Button, Form } from 'react-bootstrap'
+import { Alert, Button, Form, Spinner } from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
+import { login } from 'Redux/action/userAction'
+import { _getUsers } from '_DATA'
+import { useNavigate } from 'react-router-dom'
 import "./LoginPage.css"
 
 function LoginPage() {
 
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [loginInfo, setLoginInfo] = useState({ username: "", password: "" })
+    const [loading, setLoading] = useState(false)
+
+    const [error, setError] = useState(null)
 
     const handleChangeInput = (event) => {
         setLoginInfo(prev => ({
@@ -14,9 +23,21 @@ function LoginPage() {
         }))
     }
 
-    const handleLogin = (event) => {
+    const handleLogin = async (event) => {
         event.preventDefault()
-
+        setLoading(true)
+        setError(null)
+        let result = await _getUsers()
+        if (result instanceof Object) {
+            let user = Object.entries(result).find((tupple) => tupple[0] === loginInfo.username)
+            if (user) {
+                dispatch(login(user))
+                navigate("/")
+            } else {
+                setError("User is not found !!!")
+            }
+        }
+        setLoading(false)
     }
 
     return (
@@ -48,14 +69,25 @@ function LoginPage() {
                         placeholder="fill password..."
                     />
                 </Form.Group>
-                <Button
-                    className="LoginPage__btnLogin"
-                    type='submit'
-                    variant="primary"
-                >
-                    Login
-                </Button>
+                {loading ?
+                    <Button
+                        className="LoginPage__btnLogin"
+                        variant="primary"
+                        disabled
+                    >
+                        <Spinner animation='border' size='sm' />
+                    </Button>
+                    :
+                    <Button
+                        className="LoginPage__btnLogin"
+                        type='submit'
+                        variant="primary"
+                    >
+                        Login
+                    </Button>
+                }
             </Form>
+            {error && <Alert className='mt-3' variant='danger'>{error}</Alert>}
         </div>
     )
 }

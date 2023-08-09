@@ -1,6 +1,8 @@
-import { combineReducers } from "redux";
-
+import { combineReducers, createStore } from "redux";
+import { userReducer } from "./userReducer";
 
 const allReducers = combineReducers({
-  // add more reducers here
+  user: userReducer
 });
+
+export const store = createStore(allReducers)
