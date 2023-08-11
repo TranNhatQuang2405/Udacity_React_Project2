@@ -1,24 +1,27 @@
 import './App.css';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { HomePage, LeaderBoardPage, LoginPage, NewPage, PageTemplate } from 'Layout';
+import { PageTemplate } from 'Layout';
+import { routes } from 'Utils/routeUtil';
 import { AuthProvider } from 'Provider';
 
+
 function App() {
-  return (
-    <AuthProvider>
-      <div className="App">
-        <PageTemplate>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/leaderboard" element={<LeaderBoardPage />} />
-            <Route path="/add" element={<NewPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </PageTemplate>
-      </div>
-    </AuthProvider>
-  );
+    return (
+        <AuthProvider>
+            <div className="App">
+                <PageTemplate>
+                    <Routes>
+                        {
+                            routes.map((route) => (
+                                <Route key={route.id} path={route.path} element={route.element} />
+                            ))
+                        }
+                        <Route path="*" element={<Navigate to="/" />} />
+                    </Routes>
+                </PageTemplate>
+            </div>
+        </AuthProvider>
+    );
 }
 
 export default App;

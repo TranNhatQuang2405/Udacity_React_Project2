@@ -7,7 +7,7 @@ import { Container } from 'react-bootstrap';
 function PageTemplate({ children }) {
     return (
         <Container fluid className='fix_scroll PageTemplate__box'>
-            <Header />
+            <Header title={children?.title} />
             <Body>
                 {children}
             </Body>
