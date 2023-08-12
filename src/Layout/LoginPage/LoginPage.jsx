@@ -6,6 +6,8 @@ import { login } from 'Redux/action/userAction'
 import { _getUsers } from '_DATA'
 import { useNavigate } from 'react-router-dom'
 import "./LoginPage.css"
+import { asyncFetchAllUser } from 'Redux/reducer/allUserReducer'
+import { asyncfetchAllQuestion } from 'Redux/reducer/questionReducer'
 
 function LoginPage() {
 
@@ -38,7 +40,9 @@ function LoginPage() {
         if (result instanceof Object) {
             let user = Object.entries(result).find((tupple) => tupple[0] === loginInfo.username)
             if (user) {
-                dispatch(login(user))
+                dispatch(login(user[1]))
+                dispatch(asyncFetchAllUser())
+                dispatch(asyncfetchAllQuestion())
                 navigate("/")
             } else {
                 setError("User is not found !!!")

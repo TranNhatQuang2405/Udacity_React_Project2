@@ -1,8 +1,16 @@
-import { combineReducers, createStore } from "redux";
+import { combineReducers, createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 import { userReducer } from "./userReducer";
+import { questionReducer } from "./questionReducer";
+import { allUserReducer } from "./allUserReducer";
+import { createLogger } from 'redux-logger'
+
+const middleware = [thunk, createLogger()];
 
 const allReducers = combineReducers({
-  user: userReducer
+  user: userReducer,
+  questions: questionReducer,
+  users: allUserReducer
 });
 
-export const store = createStore(allReducers)
+export const store = createStore(allReducers, applyMiddleware(...middleware))

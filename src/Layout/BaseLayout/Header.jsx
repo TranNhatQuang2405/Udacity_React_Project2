@@ -12,7 +12,7 @@ function Header() {
     const location = useLocation()
     const dispatch = useDispatch()
     const title = routes.find(route => route.path === location.pathname)?.title
-    const userInfo = userState?.info[1]
+    const userInfo = userState?.info
 
     const navClassName = (navPath) => {
         if (navPath === location.pathname)

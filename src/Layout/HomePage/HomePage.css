@@ -1,0 +1,7 @@
+.HomePage__box {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 16px auto;
+    row-gap: 16px;
+}
