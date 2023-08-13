@@ -1,4 +1,6 @@
 import { HomePage, LeaderBoardPage, LoginPage, NewPage } from 'Layout';
+import QuestionPage from 'Layout/QuestionPage/QuestionPage';
+import { Navigate } from 'react-router-dom';
 
 export const routes = [
     {
@@ -27,10 +29,26 @@ export const routes = [
     },
     {
         id: 4,
+        path: "/question/:question_id",
+        element: <QuestionPage />,
+        title: "Question Page",
+        nav: "Question Page",
+        isShow: false
+    },
+    {
+        id: 5,
         path: "/login",
         element: <LoginPage />,
         title: "Login Page",
         nav: "Login",
         isShow: false
-    }
+    },
+    {
+        id: 6,
+        path: "&",
+        element: <Navigate to="/" />,
+        title: "Default",
+        nav: "",
+        isShow: false
+    },
 ]

@@ -4,3 +4,9 @@ export const fetchAllUser = (data) => {
         data: data
     };
 };
+
+export const preFetchAllUser = () => {
+    return {
+        type: "PRE_FETCH_ALL_USER"
+    };
+};

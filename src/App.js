@@ -1,5 +1,5 @@
 import './App.css';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { PageTemplate } from 'Layout';
 import { routes } from 'Utils/routeUtil';
 import { AuthProvider } from 'Provider';
@@ -16,7 +16,6 @@ function App() {
                                 <Route key={route.id} path={route.path} element={route.element} />
                             ))
                         }
-                        <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
                 </PageTemplate>
             </div>

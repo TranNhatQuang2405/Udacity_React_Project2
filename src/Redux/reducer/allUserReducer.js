@@ -1,10 +1,14 @@
 import { _getUsers } from "_DATA"
-import { fetchAllUser } from "Redux/action/allUserAction"
+import { fetchAllUser, preFetchAllUser } from "Redux/action/allUserAction"
 
-let allUserState = []
+let allUserState = {
+    allUser: [],
+    pending: false
+}
 
 export const asyncFetchAllUser = () => {
     return async (dispatch) => {
+        dispatch(preFetchAllUser())
         let rawResult = await _getUsers()
         let result = Object.entries(rawResult).map((tupple) => tupple[1])
         dispatch(fetchAllUser(result))
@@ -14,7 +18,15 @@ export const asyncFetchAllUser = () => {
 export const allUserReducer = (state = allUserState, action) => {
     switch (action.type) {
         case "FETCH_ALL_USER":
-            return [...action.data]
+            return {
+                allUser: [...action.data],
+                pending: false
+            }
+        case "PRE_FETCH_ALL_USER":
+            return {
+                pending: true,
+                allUser: []
+            }
         default:
             return state
     }

@@ -4,3 +4,9 @@ export const fetchAllQuestion = (data) => {
         data: data
     };
 };
+
+export const preFetchAllQuestion = () => {
+    return {
+        type: "PRE_FETCH_ALL_QUESTION"
+    };
+};

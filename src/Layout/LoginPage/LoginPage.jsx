@@ -12,6 +12,7 @@ import { asyncfetchAllQuestion } from 'Redux/reducer/questionReducer'
 function LoginPage() {
 
     const isLogin = useSelector(state => state.user.isLogin)
+    const currentLocation = useSelector(state => state.currentLocation)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [loginInfo, setLoginInfo] = useState({ username: "", password: "" })
@@ -28,7 +29,7 @@ function LoginPage() {
 
     useEffect(() => {
         if (isLogin)
-            navigate("/")
+            navigate(currentLocation || "/")
     }, [isLogin])
 
 
@@ -42,8 +43,8 @@ function LoginPage() {
             if (user) {
                 dispatch(login(user[1]))
                 dispatch(asyncFetchAllUser())
-                dispatch(asyncfetchAllQuestion())
-                navigate("/")
+                dispatch(asyncfetchAllQuestion(user[1]?.answers))
+                navigate(currentLocation || "/")
             } else {
                 setError("User is not found !!!")
             }

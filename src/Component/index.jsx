@@ -1,1 +1,1 @@
-export { default as QuestionItem } from "./QuestionItem/Questionitem" 
+export { default as QuestionItem } from "./QuestionItem/QuestionItem" 

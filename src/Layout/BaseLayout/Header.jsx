@@ -2,7 +2,7 @@ import React from 'react'
 import { Col, Image, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { routes } from 'Utils/routeUtil'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, matchPath } from 'react-router-dom'
 import { logout } from 'Redux/action/userAction'
 
 function Header() {
@@ -11,9 +11,9 @@ function Header() {
     const navigate = useNavigate()
     const location = useLocation()
     const dispatch = useDispatch()
-    const title = routes.find(route => route.path === location.pathname)?.title
-    const userInfo = userState?.info
 
+    const title = routes.find(route => matchPath(route.path, location.pathname) !== null)?.title
+    const userInfo = userState?.info
     const navClassName = (navPath) => {
         if (navPath === location.pathname)
             return "Header__navItem active"
