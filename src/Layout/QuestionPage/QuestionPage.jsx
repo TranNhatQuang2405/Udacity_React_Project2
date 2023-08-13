@@ -39,6 +39,7 @@ function QuestionPage() {
         else {
             setPending(true)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [users, questions, question_id])
 
     if (pending)

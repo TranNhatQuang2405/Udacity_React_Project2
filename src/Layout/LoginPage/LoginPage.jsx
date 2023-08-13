@@ -30,6 +30,7 @@ function LoginPage() {
     useEffect(() => {
         if (isLogin)
             navigate(currentLocation || "/")
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLogin])
 
 

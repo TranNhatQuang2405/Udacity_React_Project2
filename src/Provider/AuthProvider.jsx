@@ -11,7 +11,6 @@ function AuthProvider({ children }) {
 
     useEffect(() => {
         let isSubscribed = true;
-        console.log(matchPath("/login", location.pathname), location.pathname)
         const unsubscribed = async () => {
             if (matchPath("/login", location.pathname) === null) {
                 dispatch(changeLocation(location.pathname))
@@ -26,6 +25,7 @@ function AuthProvider({ children }) {
         return () => {
             isSubscribed = false;
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLogin, navigate])
 
     return <>{children}</>;
