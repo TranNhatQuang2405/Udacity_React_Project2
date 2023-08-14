@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import "./QuestionPage.css"
 import { Image, Spinner } from 'react-bootstrap'
 import { useEffect } from 'react'
+import { QuestionOptionDetail } from 'Component'
 
 
 const getQuestionInfo = (allQuestion = [], allUser = [], question_id) => {
@@ -11,10 +12,18 @@ const getQuestionInfo = (allQuestion = [], allUser = [], question_id) => {
     let author = allUser.find(user => user.id === question?.author)
     if (question && author) {
         question.avatarURL = author.avatarURL
+        question.authorName = author.name
         return question
     } else {
         return null
     }
+}
+
+const checkIsVoted = (question_id, doneQuestions = []) => {
+    let existed = doneQuestions.find(question => question.id === question_id)
+    if (existed)
+        return true
+    return false
 }
 
 function QuestionPage() {
@@ -23,15 +32,22 @@ function QuestionPage() {
     const navigate = useNavigate()
     const users = useSelector(state => state.users)
     const questions = useSelector(state => state.questions)
+    const doneQuestions = useSelector(state => state?.questions?.doneQuestions)
+    const answers = useSelector(state => state?.user?.info?.answers)
     const [questionInfo, setQuestionInfo] = useState({})
     const [pending, setPending] = useState(true)
+    const [voted, setVoted] = useState(false)
+    const [answer, setAnswer] = useState(null)
 
     useEffect(() => {
         if (!users.pending && !questions.pending) {
             let question = getQuestionInfo(questions.allQuestion, users.allUser, question_id)
-            console.log(question)
-            if (question)
+            let hasAnswer = checkIsVoted(question_id, doneQuestions)
+            if (question) {
                 setQuestionInfo(question)
+                setVoted(hasAnswer)
+                setAnswer(answers ? answers[question_id] : null)
+            }
             else
                 navigate("/notFound")
             setPending(false)
@@ -47,26 +63,24 @@ function QuestionPage() {
     else if (questionInfo)
         return (
             <div className="QuestionPage__box">
-                <div className="QuestionPage__author">Poll by {questionInfo.author}</div>
+                <div className="QuestionPage__author">Poll by {questionInfo.authorName}</div>
                 <Image className="QuestionPage__authorAvatar" width={130} height={130} roundedCircle src={questionInfo.avatarURL} />
                 <h5 className="mx-auto my-1">Would You Rather</h5>
                 <div className="QuestionPage__optionBox">
-                    <div className="QuestionPage__option">
-                        <div className="Question__optionText">
-                            {questionInfo?.optionOne?.text}
-                        </div>
-                        <div className="QuestionPage__btnClick">
-                            Click
-                        </div>
-                    </div>
-                    <div className="QuestionPage__option">
-                        <div className="Question__optionText">
-                            {questionInfo?.optionTwo?.text}
-                        </div>
-                        <div className="QuestionPage__btnClick">
-                            Click
-                        </div>
-                    </div>
+                    <QuestionOptionDetail
+                        questionInfo={questionInfo}
+                        optionId='optionOne'
+                        isVoted={voted}
+                        answer={answer}
+                        setPending={setPending}
+                    />
+                    <QuestionOptionDetail
+                        questionInfo={questionInfo}
+                        optionId='optionTwo'
+                        isVoted={voted}
+                        answer={answer}
+                        setPending={setPending}
+                    />
                 </div>
             </div>
         )

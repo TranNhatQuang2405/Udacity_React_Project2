@@ -17,6 +17,11 @@ export const userReducer = (state = userState, action) => {
                 isLogin: false,
                 info: {}
             }
+        case "FETCH_USER_INFO":
+            return {
+                ...state,
+                info: { ...action.payload }
+            }
         default:
             return state
     }

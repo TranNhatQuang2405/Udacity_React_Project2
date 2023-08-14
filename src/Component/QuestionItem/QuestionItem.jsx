@@ -13,7 +13,7 @@ function QuestionItem({ questionInfo }) {
     }
 
     return (
-        <Col xs={6} md={3}>
+        <Col xs={6} md={3} className="mb-3">
             <div className="QuestionItem__box">
                 <div className="QuestionItem__author">{questionInfo.author}</div>
                 <div className="QuestionItem__time">{timeCreated(questionInfo.timestamp)}</div>

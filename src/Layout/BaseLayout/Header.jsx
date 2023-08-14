@@ -46,7 +46,7 @@ function Header() {
                     <div className="Header__userInfo">
                         <Image className="Header__userAvatar" width={40} height={40} roundedCircle src={userInfo.avatarURL} />
                         <div className="Header__userName">
-                            {userInfo.id}
+                            {userInfo.name}
                         </div>
                         <div className="Header__logoutBtn" onClick={() => dispatch(logout())}>
                             Logout

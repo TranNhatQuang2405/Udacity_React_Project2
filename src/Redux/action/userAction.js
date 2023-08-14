@@ -9,3 +9,10 @@ export const logout = () => {
         type: "LOGOUT"
     };
 };
+
+export const fetchInfo = (userInfo) => {
+    return {
+        type: "FETCH_USER_INFO",
+        payload: userInfo,
+    };
+};
