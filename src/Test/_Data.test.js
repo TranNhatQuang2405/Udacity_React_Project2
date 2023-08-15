@@ -1,4 +1,12 @@
-import { _saveQuestion, _saveQuestionAnswer } from "_DATA";
+import { _getUsers, _saveQuestion, _saveQuestionAnswer } from "_DATA";
+
+describe('TEST_getUsers', () => {
+    it('should return the users object', async () => {
+        const users = await _getUsers();
+        expect(users).toBeDefined();
+        expect(typeof users).toBe('object');
+    });
+})
 
 describe('TEST_saveQuestion', () => {
     it('will return saved question and all expected fields are populated', async () => {
@@ -14,7 +22,7 @@ describe('TEST_saveQuestion', () => {
 
     it('an error is returned if incorrect data is passed to the function.', async () => {
         let testData = { optionOneText: "optionOneText", optionTwoText: "optionTwoText" }
-        await expect(_saveQuestion(testData)).rejects.toEqual(expect.any(Error));
+        await expect(_saveQuestion(testData)).rejects.toEqual(new Error("User not found"));
     });
 })
 
@@ -22,12 +30,12 @@ describe('TEST_saveQuestionAnswer', () => {
     it('true is returned when correctly formatted data is passed to the function', async () => {
         let testData = { authedUser: "sarahedo", qid: "xj352vofupe1dqz9emx13r", answer: "optionOne" }
         let result = await _saveQuestionAnswer(testData)
-        expect(result).toBe(undefined)
-
+        expect(result).toBe(true)
     });
 
-    // it('an error is returned if incorrect data is passed to the function.', async () => {
-    //     let testData = { optionOneText: "optionOneText", optionTwoText: "optionTwoText" }
-    //     await expect(_saveQuestion(testData)).rejects.toEqual(expect.any(Error));
-    // });
+    it('an error is returned if incorrect data is passed to the function.', async () => {
+        let testData = { optionOneText: "optionOneText", optionTwoText: "optionTwoText" }
+        await expect(_saveQuestion(testData)).rejects.toEqual(expect.any(Error));
+    });
 })
+
