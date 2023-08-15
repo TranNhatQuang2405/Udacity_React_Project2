@@ -3,7 +3,6 @@ import loginImage from "Assets/LoginImage.png"
 import { Alert, Button, Form, Spinner } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from 'Redux/action/userAction'
-import { _getUsers } from '_DATA'
 import { useNavigate } from 'react-router-dom'
 import "./LoginPage.css"
 import { asyncFetchAllUser } from 'Redux/reducer/allUserReducer'
@@ -63,7 +62,7 @@ function LoginPage() {
                 <Form.Group className="mb-3">
                     <Form.Label className="LoginPage__label" htmlFor="username">Username:</Form.Label>
                     {
-                        pendingLoadData ?
+                        pendingLoadData || allUser?.length ?
                             <Form.Control
                                 value={loginInfo.username}
                                 onChange={handleChangeInput}

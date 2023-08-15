@@ -1,8 +1,6 @@
 import React from 'react'
 import "./QuestionOptionDetail.css"
 import { useSelector, useDispatch } from 'react-redux'
-import { refreshData } from 'Utils/actionUtil'
-import { _saveQuestionAnswer } from '_DATA'
 import { asyncAddVotedQuestion } from 'Redux/reducer/questionReducer'
 
 
