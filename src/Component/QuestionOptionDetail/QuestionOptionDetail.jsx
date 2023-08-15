@@ -3,6 +3,7 @@ import "./QuestionOptionDetail.css"
 import { useSelector, useDispatch } from 'react-redux'
 import { refreshData } from 'Utils/actionUtil'
 import { _saveQuestionAnswer } from '_DATA'
+import { asyncAddVotedQuestion } from 'Redux/reducer/questionReducer'
 
 
 const totalAnswer = (question) => {
@@ -30,9 +31,7 @@ function QuestionOptionDetail({ questionInfo, optionId, isVoted, answer, setPend
 
     const submit = async () => {
         setPending(true)
-        await _saveQuestionAnswer({ authedUser: userId, qid: questionInfo?.id, answer: optionId })
-        await refreshData(dispatch, userId)
-        setPending(false)
+        dispatch(asyncAddVotedQuestion({ authedUser: userId, qid: questionInfo?.id, answer: optionId }))
     }
 
     return (

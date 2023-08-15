@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useNavigate, matchPath } from 'react-router-dom';
 import { changeLocation } from 'Redux/action/locationAction';
+import { asyncFetchAllUser } from 'Redux/reducer/allUserReducer';
 
 function AuthProvider({ children }) {
     const navigate = useNavigate();
@@ -15,8 +16,10 @@ function AuthProvider({ children }) {
             if (matchPath("/login", location.pathname) === null) {
                 dispatch(changeLocation(location.pathname))
             }
-            if (!isLogin)
+            if (!isLogin) {
+                dispatch(asyncFetchAllUser())
                 navigate("/login")
+            }
         };
 
         if (isSubscribed) {

@@ -1,5 +1,6 @@
 import { fetchAllQuestion, preFetchAllQuestion } from "Redux/action/questionAction"
-import { _getQuestions } from "_DATA"
+import { _getQuestions, _saveQuestion, _saveQuestionAnswer } from "_DATA"
+import { refreshData } from "Utils/actionUtil"
 
 let questionState = {
     allQuestion: [],
@@ -29,6 +30,22 @@ export const asyncfetchAllQuestion = (answeredQuestions = {}) => {
             newQuestions: newQuestions,
             doneQuestions: doneQuestions
         }))
+    }
+}
+
+export const asyncAddQuestion = (question) => {
+    return async (dispatch) => {
+        dispatch(preFetchAllQuestion())
+        await _saveQuestion(question)
+        await refreshData(dispatch, question.author)
+    }
+}
+
+export const asyncAddVotedQuestion = (votedData) => {
+    return async (dispatch) => {
+        dispatch(preFetchAllQuestion())
+        await _saveQuestionAnswer(votedData)
+        await refreshData(dispatch, votedData.authedUser)
     }
 }
 

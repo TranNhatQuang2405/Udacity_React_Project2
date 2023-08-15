@@ -10,3 +10,11 @@ export const preFetchAllQuestion = () => {
         type: "PRE_FETCH_ALL_QUESTION"
     };
 };
+
+
+
+export const addQuestion = () => {
+    return {
+        type: "ADD_QUESTION"
+    };
+};

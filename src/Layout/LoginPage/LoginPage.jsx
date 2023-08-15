@@ -11,7 +11,9 @@ import { asyncfetchAllQuestion } from 'Redux/reducer/questionReducer'
 
 function LoginPage() {
 
-    const isLogin = useSelector(state => state.user.isLogin)
+    const isLogin = useSelector(state => state.user?.isLogin)
+    const allUser = useSelector(state => state.users?.allUser)
+    const pendingLoadData = useSelector(state => state.users?.pending)
     const currentLocation = useSelector(state => state.currentLocation)
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -38,17 +40,15 @@ function LoginPage() {
         event.preventDefault()
         setLoading(true)
         setError(null)
-        let result = await _getUsers()
-        if (result instanceof Object) {
-            let user = Object.entries(result).find((tupple) => tupple[0] === loginInfo.username)
-            if (user) {
-                dispatch(login(user[1]))
-                dispatch(asyncFetchAllUser())
-                dispatch(asyncfetchAllQuestion(user[1]?.answers))
-                navigate(currentLocation || "/")
-            } else {
-                setError("User is not found !!!")
-            }
+        let users = allUser || []
+        let user = users.find((user) => user.id === loginInfo.username)
+        if (user) {
+            dispatch(login(user))
+            dispatch(asyncFetchAllUser())
+            dispatch(asyncfetchAllQuestion(user?.answers))
+            navigate(currentLocation || "/")
+        } else {
+            setError("User is not found !!!")
         }
         setLoading(false)
     }
@@ -62,14 +62,30 @@ function LoginPage() {
             <Form className="LoginPage__formBox" onSubmit={handleLogin}>
                 <Form.Group className="mb-3">
                     <Form.Label className="LoginPage__label" htmlFor="username">Username:</Form.Label>
-                    <Form.Control
-                        value={loginInfo.username}
-                        onChange={handleChangeInput}
-                        required
-                        id="username"
-                        type="text"
-                        placeholder="fill username..."
-                    />
+                    {
+                        pendingLoadData ?
+                            <Form.Control
+                                value={loginInfo.username}
+                                onChange={handleChangeInput}
+                                required
+                                id="username"
+                                placeholder="fill username..."
+                            />
+                            :
+                            <Form.Select
+                                value={loginInfo.username}
+                                onChange={handleChangeInput}
+                                required
+                                id="username"
+                                placeholder="fill username..."
+                            >
+                                {
+                                    allUser && allUser?.map(user => (
+                                        <option key={user.id} value={user.id}>{user.id}</option>
+                                    ))
+                                }
+                            </Form.Select>
+                    }
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label className="LoginPage__label" htmlFor="password">Password:</Form.Label>
